@@ -50,12 +50,16 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { SideNavComponent } from './components/layout/side-nav/side-nav.component';
+import { MembersComponent } from './components/membership/members/members.component';
+import { SmallGroupsComponent } from './components/membership/small-groups/small-groups.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ToolbarComponent,
-    SideNavComponent
+    SideNavComponent,
+    MembersComponent,
+    SmallGroupsComponent
   ],
   imports: [
     BrowserModule,
