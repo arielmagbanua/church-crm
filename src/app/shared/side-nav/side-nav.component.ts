@@ -4,7 +4,7 @@ import {
   ViewChild,
   OnDestroy
 } from '@angular/core';
-import { NavigationService } from '../../../navigation.service';
+import { NavigationService } from '../../navigation.service';
 import { Subscription } from 'rxjs';
 
 @Component({

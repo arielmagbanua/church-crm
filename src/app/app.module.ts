@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ToolbarComponent } from './components/layout/toolbar/toolbar.component';
+import { ToolbarComponent } from './shared/toolbar/toolbar.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSliderModule } from '@angular/material/slider';
@@ -49,9 +49,9 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { SideNavComponent } from './components/layout/side-nav/side-nav.component';
-import { MembersComponent } from './components/membership/members/members.component';
-import { SmallGroupsComponent } from './components/membership/small-groups/small-groups.component';
+import { SideNavComponent } from './shared/side-nav/side-nav.component';
+import { MembersComponent } from './membership/members/members.component';
+import { SmallGroupsComponent } from './membership/small-groups/small-groups.component';
 
 @NgModule({
   declarations: [
