@@ -6,8 +6,6 @@ import {
 } from '@angular/core';
 import { NavigationService } from '../../navigation.service';
 import { Subscription } from 'rxjs';
-import {NavigationEnd, NavigationStart, Router} from '@angular/router';
-import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-side-nav',
@@ -25,7 +23,7 @@ export class SideNavComponent implements OnInit, OnDestroy {
    */
   @ViewChild('drawer') drawer;
 
-  constructor(private navService: NavigationService, private router: Router) { }
+  constructor(private navService: NavigationService) { }
 
   /**
    * Initialize subscriptions here
@@ -47,9 +45,5 @@ export class SideNavComponent implements OnInit, OnDestroy {
    */
   ngOnDestroy(): void {
     this.drawerToggleSubscription.unsubscribe();
-  }
-
-  navItemClick(): void {
-    this.navService.toggleDrawer();
   }
 }

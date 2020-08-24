@@ -1,19 +1,13 @@
 <mat-drawer-container class="container" autosize>
-  <mat-drawer #drawer class="sidenav" mode="side">
+  <mat-drawer #drawer class="sidenav" mode="side" opened>
     <mat-list>
       <div mat-subheader>Membership</div>
-      <mat-list-item
-        [routerLink]="['members']"
-        (click)="navItemClick()"
-      >
+      <mat-list-item [routerLink]="['members']">
         <mat-icon mat-list-icon>people</mat-icon>
         <div mat-line>Members</div>
         <div mat-line>Latest count: 50</div>
       </mat-list-item>
-      <mat-list-item
-        [routerLink]="['small-groups']"
-        (click)="navItemClick()"
-      >
+      <mat-list-item [routerLink]="['small-groups']">
         <mat-icon mat-list-icon>reduce_capacity</mat-icon>
         <div mat-line>Small Groups</div>
         <div mat-line>Group count: 50</div>
