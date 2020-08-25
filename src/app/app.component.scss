@@ -1,0 +1,23 @@
+.container {
+  width: 100%;
+  min-height: calc(100vh - 64px);
+}
+
+.sidenav-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidenav {
+  padding: 20px;
+}
+
+.mat-list-item {
+  cursor: pointer;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}

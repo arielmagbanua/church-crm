@@ -1,2 +1,55 @@
-<app-toolbar></app-toolbar>
-<app-side-nav></app-side-nav>
+<!--<app-toolbar></app-toolbar>-->
+<!--<app-side-nav></app-side-nav>-->
+<mat-toolbar color="primary">
+  <button
+    type="button"
+    mat-icon-button
+    class="icon"
+    aria-label="icon-button with menu icon"
+    (click)="drawer.toggle()"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>CRM</span>
+  <span class="spacer"></span>
+  <button mat-icon-button class="icon" aria-label="Logout">
+    <mat-icon>logout</mat-icon>
+  </button>
+</mat-toolbar>
+<mat-drawer-container class="container" autosize>
+  <mat-drawer #drawer class="sidenav" mode="side" opened>
+    <mat-list>
+      <mat-list-item [routerLink]="['dashboard']">
+        <mat-icon mat-list-icon>dashboard</mat-icon>
+        <div mat-line>Dashboard</div>
+      </mat-list-item>
+
+      <div mat-subheader>People</div>
+      <mat-list-item [routerLink]="['members']">
+        <mat-icon mat-list-icon>people</mat-icon>
+        <div mat-line>Members</div>
+        <div mat-line>Member count: 50</div>
+      </mat-list-item>
+      <mat-list-item [routerLink]="['small-groups']">
+        <mat-icon mat-list-icon>reduce_capacity</mat-icon>
+        <div mat-line>Small Groups</div>
+        <div mat-line>Group count: 50</div>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+
+      <div mat-subheader>Courses and Classes</div>
+      <mat-list-item>
+        <mat-icon mat-list-icon>school</mat-icon>
+        <div mat-line>Courses</div>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon mat-list-icon>class</mat-icon>
+        <div mat-line>Classes</div>
+      </mat-list-item>
+    </mat-list>
+  </mat-drawer>
+
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+</mat-drawer-container>
