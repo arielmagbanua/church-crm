@@ -52,6 +52,10 @@ import { MembersComponent } from './members/members.component';
 import { SmallGroupsComponent } from './small-groups/small-groups.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MemberDialogComponent } from './members/member-dialog/member-dialog.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { environment } from '../environments/environment';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [
@@ -108,7 +112,10 @@ import { MemberDialogComponent } from './members/member-dialog/member-dialog.com
     MatTreeModule,
     OverlayModule,
     PortalModule,
-    ScrollingModule
+    ScrollingModule,
+    ReactiveFormsModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]
