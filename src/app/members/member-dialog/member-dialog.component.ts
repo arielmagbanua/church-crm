@@ -11,11 +11,31 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./member-dialog.component.scss']
 })
 export class MemberDialogComponent implements OnInit, OnDestroy {
+  /**
+   * The form instance.
+   */
   memberForm: FormGroup;
+
+  /**
+   * Status change subscription
+   *
+   * @private
+   */
   private statusSub: Subscription;
+
+  /**
+   * Tells whether on edit mode or not.
+   *
+   * @private
+   */
   private editMode = false;
+
+  /**
+   * The member instance
+   *
+   * @private
+   */
   private member: Member;
-  selectedStatus: string;
 
   constructor(
     public dialogRef: MatDialogRef<MemberDialogComponent>,
