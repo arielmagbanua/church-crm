@@ -1,0 +1,75 @@
+<h2 mat-dialog-title>Add Member</h2>
+<mat-dialog-content class="mat-typography">
+  <form>
+    <div class="row form-grid">
+      <mat-form-field appearance="outline" class="col-lg-4 col-md-12 col-sm-12">
+        <mat-label>First Name</mat-label>
+        <input type="text" matInput placeholder="First Name">
+        <mat-hint></mat-hint>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col-lg-4 col-md-12 col-sm-12">
+        <mat-label>Middle Name</mat-label>
+        <input type="text" matInput placeholder="Middle Name">
+        <mat-hint></mat-hint>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col-lg-4 col-md-12 col-sm-12">
+        <mat-label>Last Name</mat-label>
+        <input type="text" matInput placeholder="Last Name">
+        <mat-hint></mat-hint>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col-lg-4 col-md-12 col-sm-12">
+        <mat-label>Email</mat-label>
+        <input type="email" matInput placeholder="Email">
+        <mat-hint></mat-hint>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col-lg-4 col-md-12 col-sm-12">
+        <mat-label>Mobile Number</mat-label>
+        <input type="text" matInput placeholder="Mobile Number">
+        <mat-hint></mat-hint>
+      </mat-form-field>
+      <mat-form-field color="accent" appearance="fill" class="col-lg-4 col-md-12 col-sm-12">
+        <mat-label>Birthday</mat-label>
+        <input matInput [matDatepicker]="birthdayPicker">
+        <mat-datepicker-toggle matSuffix [for]="birthdayPicker"></mat-datepicker-toggle>
+        <mat-datepicker #birthdayPicker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="col-lg-12 col-md-12 col-sm-12">
+        <mat-label>Address</mat-label>
+        <textarea matInput rows="3"></textarea>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="col-lg-4 col-md-12 col-sm-12">
+        <mat-label>Status</mat-label>
+        <mat-select [(value)]="selectedStatus">
+          <mat-option>None</mat-option>
+          <mat-option value="guest">Guest</mat-option>
+          <mat-option value="attendee">Attendee</mat-option>
+          <mat-option value="sg_member">Small Group Member</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="col-lg-4 col-md-12 col-sm-12">
+        <mat-label>Small Group</mat-label>
+        <mat-select [disabled]="selectedStatus !== 'sg_member'">
+          <mat-option>None</mat-option>
+          <mat-option value="sg1">Small Group 1</mat-option>
+          <mat-option value="sg2">Small Group 2</mat-option>
+          <mat-option value="sg3">Small Group 3</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field color="accent" appearance="fill" class="col-lg-4 col-md-12 col-sm-12">
+        <mat-label>Membership Date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="memberDate"
+          [disabled]="selectedStatus === 'guest' || !selectedStatus"
+        >
+        <mat-datepicker-toggle matSuffix [for]="memberDate"></mat-datepicker-toggle>
+        <mat-datepicker #memberDate></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button>Clear</button>
+  <button mat-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>Save</button>
+</mat-dialog-actions>
