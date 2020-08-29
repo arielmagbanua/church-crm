@@ -121,8 +121,13 @@
               "devServerTarget": "church-crm:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
-    }},
+    }
+  },
   "defaultProject": "church-crm"
 }

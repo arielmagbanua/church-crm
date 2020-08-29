@@ -1,0 +1,14 @@
+@import "../component";
+
+.mat-form-field {
+  &.search-form {
+    min-width: 20vw;
+  }
+}
+
+.form-row {
+  padding: 8px;
+  .mat-form-field, .mat-button {
+    margin-right: 8px;
+  }
+}

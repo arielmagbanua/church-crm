@@ -1,0 +1,144 @@
+<h2 mat-dialog-title>Add Member</h2>
+<form [formGroup]="memberForm" (ngSubmit)="submitMember()">
+  <mat-dialog-content class="mat-typography">
+    <div class="row form-grid">
+      <mat-form-field appearance="outline" class="col-lg-4 col-md-12 col-sm-12">
+        <mat-label>First Name</mat-label>
+        <input
+          formControlName="firstName"
+          matInput
+          type="text"
+          placeholder="First Name"
+        >
+        <mat-hint
+          *ngIf="errors('firstName', 'required') && invalid('firstName')"
+        >
+          The first name is required.
+        </mat-hint>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col-lg-4 col-md-12 col-sm-12">
+        <mat-label>Middle Name</mat-label>
+        <input
+          formControlName="middleName"
+          matInput
+          type="text"
+          placeholder="Middle Name"
+        >
+        <mat-hint></mat-hint>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col-lg-4 col-md-12 col-sm-12">
+        <mat-label>Last Name</mat-label>
+        <input
+          formControlName="lastName"
+          matInput
+          type="text"
+          placeholder="Last Name"
+        >
+        <mat-hint
+          *ngIf="errors('lastName', 'required') && invalid('lastName')"
+        >
+          The last name is required.
+        </mat-hint>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col-lg-4 col-md-12 col-sm-12">
+        <mat-label>Email</mat-label>
+        <input
+          formControlName="email"
+          matInput
+          type="email"
+          placeholder="Email"
+        >
+        <mat-hint
+          *ngIf="invalid('email')"
+        >
+          {{ errors('email', 'required') ? 'The email is required.' : 'The email is invalid.' }}
+        </mat-hint>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col-lg-4 col-md-12 col-sm-12">
+        <mat-label>Mobile Number</mat-label>
+        <input
+          formControlName="mobileNumber"
+          matInput
+          type="text"
+          placeholder="Mobile Number"
+        >
+        <mat-hint></mat-hint>
+      </mat-form-field>
+      <mat-form-field color="accent" appearance="fill" class="col-lg-4 col-md-12 col-sm-12">
+        <mat-label>Birthdate</mat-label>
+        <input
+          formControlName="birthdate"
+          matInput
+          [matDatepicker]="birthdatePicker"
+        >
+        <mat-hint
+          *ngIf="errors('birthdate', 'required') && invalid('birthdate')"
+        >
+          The birth date is required.
+        </mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="birthdatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #birthdatePicker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="col-lg-12 col-md-12 col-sm-12">
+        <mat-label>Address</mat-label>
+        <textarea
+          formControlName="address"
+          matInput
+          rows="3"
+        >
+          </textarea>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="col-lg-4 col-md-12 col-sm-12">
+        <mat-label>Status</mat-label>
+        <mat-select
+          formControlName="status"
+        >
+          <mat-option value="guest">Guest</mat-option>
+          <mat-option value="attendee">Attendee</mat-option>
+          <mat-option value="sg_member">Small Group Member</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="col-lg-4 col-md-12 col-sm-12">
+        <mat-label>Small Group</mat-label>
+        <mat-select
+          formControlName="smallGroup">
+          <mat-option value="sg1">Small Group 1</mat-option>
+          <mat-option value="sg2">Small Group 2</mat-option>
+          <mat-option value="sg3">Small Group 3</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field color="accent" appearance="fill" class="col-lg-4 col-md-12 col-sm-12">
+        <mat-label>Membership Date</mat-label>
+        <input
+          formControlName="membershipDate"
+          matInput
+          [matDatepicker]="membershipDate"
+        >
+        <mat-hint
+          *ngIf="errors('membershipDate', 'required') && invalid('membershipDate')"
+        >
+          The membership date is required.
+        </mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="membershipDate"></mat-datepicker-toggle>
+        <mat-datepicker #membershipDate></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button
+      mat-button
+      cdkFocusInitial
+      mat-dialog-close
+    >
+      Cancel
+    </button>
+    <button
+      mat-button
+      color="primary"
+      type="submit"
+      [disabled]="!memberForm.valid"
+    >
+      Save
+    </button>
+  </mat-dialog-actions>
+</form>

@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "gpdavao": {
+      "hosting": {
+        "church-crm": [
+          "gpdavao"
+        ]
+      }
+    }
+  }
+}

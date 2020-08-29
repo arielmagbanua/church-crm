@@ -48,16 +48,22 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { MembersComponent } from './membership/members/members.component';
-import { SmallGroupsComponent } from './membership/small-groups/small-groups.component';
+import { MembersComponent } from './members/members.component';
+import { SmallGroupsComponent } from './small-groups/small-groups.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { MemberDialogComponent } from './members/member-dialog/member-dialog.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { environment } from '../environments/environment';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [
     AppComponent,
     MembersComponent,
     SmallGroupsComponent,
-    DashboardComponent
+    DashboardComponent,
+    MemberDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -106,7 +112,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     MatTreeModule,
     OverlayModule,
     PortalModule,
-    ScrollingModule
+    ScrollingModule,
+    ReactiveFormsModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]

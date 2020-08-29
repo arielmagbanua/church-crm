@@ -1,0 +1,24 @@
+<div class="container">
+  <mat-grid-list cols="6" class="content">
+    <mat-grid-tile-header>
+      <h1>Members</h1>
+      <div class="form-row">
+        <mat-form-field appearance="standard" class="search-form">
+          <mat-label>Search members...</mat-label>
+          <input matInput placeholder="Placeholder">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+        <button
+          (click)="openAddMemberDialog()"
+          mat-icon-button
+          color="primary"
+          aria-label="Add a member"
+        >
+          <mat-icon>person_add</mat-icon>
+        </button>
+      </div>
+    </mat-grid-tile-header>
+    <mat-grid-tile colspan="3">List</mat-grid-tile>
+    <mat-grid-tile colspan="3">Details</mat-grid-tile>
+  </mat-grid-list>
+</div>
