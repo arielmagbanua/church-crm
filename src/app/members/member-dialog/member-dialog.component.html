@@ -92,7 +92,6 @@
         <mat-label>Status</mat-label>
         <mat-select
           formControlName="status"
-          [(value)]="selectedStatus"
         >
           <mat-option value="guest">Guest</mat-option>
           <mat-option value="attendee">Attendee</mat-option>
@@ -102,8 +101,7 @@
       <mat-form-field appearance="fill" class="col-lg-4 col-md-12 col-sm-12">
         <mat-label>Small Group</mat-label>
         <mat-select
-          formControlName="smallGroup"
-          [disabled]="selectedStatus !== 'sg_member'">
+          formControlName="smallGroup">
           <mat-option value="sg1">Small Group 1</mat-option>
           <mat-option value="sg2">Small Group 2</mat-option>
           <mat-option value="sg3">Small Group 3</mat-option>
@@ -115,7 +113,6 @@
           formControlName="membershipDate"
           matInput
           [matDatepicker]="membershipDate"
-          [disabled]="selectedStatus === 'guest' || !selectedStatus"
         >
         <mat-datepicker-toggle matSuffix [for]="membershipDate"></mat-datepicker-toggle>
         <mat-datepicker #membershipDate></mat-datepicker>

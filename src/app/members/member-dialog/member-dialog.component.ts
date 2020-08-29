@@ -1,18 +1,20 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Member } from '../../shared/member';
 import { MembersService } from '../members.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-member-dialog',
   templateUrl: './member-dialog.component.html',
   styleUrls: ['./member-dialog.component.scss']
 })
-export class MemberDialogComponent implements OnInit {
+export class MemberDialogComponent implements OnInit, OnDestroy {
   memberForm: FormGroup;
-  editMode = false;
-  member: Member;
+  private statusSub: Subscription;
+  private editMode = false;
+  private member: Member;
   selectedStatus: string;
 
   constructor(
@@ -25,6 +27,14 @@ export class MemberDialogComponent implements OnInit {
    * Initialize component
    */
   ngOnInit(): void {
+    const smallGroupCtrl = new FormControl(null);
+    const statusCtrl = new FormControl('guest', Validators.required);
+    const membershipDateCtrl = new FormControl(null, Validators.required);
+
+    // disable or enable controls
+    smallGroupCtrl.disable();
+    membershipDateCtrl.disable();
+
     this.memberForm = new FormGroup({
       firstName: new FormControl(null, Validators.required),
       middleName: new FormControl(null),
@@ -33,13 +43,23 @@ export class MemberDialogComponent implements OnInit {
       mobileNumber: new FormControl(null),
       birthdate: new FormControl(null, Validators.required),
       address: new FormControl(null),
-      status: new FormControl(null, Validators.required),
-      smallGroup: new FormControl(null),
-      membershipDate: new FormControl(null)
+      status: statusCtrl,
+      smallGroup: smallGroupCtrl,
+      membershipDate: membershipDateCtrl
     });
 
-    this.memberForm.patchValue({
-      status: 'guest'
+    this.statusSub = statusCtrl.valueChanges.subscribe((value) => {
+      if (value && value !== 'guest') {
+        membershipDateCtrl.enable();
+      } else {
+        membershipDateCtrl.disable();
+      }
+
+      if (value && value !== 'sg_member') {
+        smallGroupCtrl.disable();
+      } else {
+        smallGroupCtrl.enable();
+      }
     });
 
     if (this.editMode) {
@@ -49,6 +69,9 @@ export class MemberDialogComponent implements OnInit {
     }
   }
 
+  /**
+   * Grab the control error for the control
+   */
   errors(formControlName: string, errorKey: string): boolean {
     const errors = this.memberForm.get(formControlName).errors;
 
@@ -59,6 +82,9 @@ export class MemberDialogComponent implements OnInit {
     return false;
   }
 
+  /**
+   * Determines if the control is invalid
+   */
   invalid(formControlName: string): boolean {
     return !this.memberForm.get(formControlName).valid &&
       this.memberForm.get(formControlName).touched;
@@ -83,5 +109,9 @@ export class MemberDialogComponent implements OnInit {
     }
 
     return false;
+  }
+
+  ngOnDestroy(): void {
+    this.statusSub.unsubscribe();
   }
 }
