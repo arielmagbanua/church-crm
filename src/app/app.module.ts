@@ -51,13 +51,15 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { MembersComponent } from './members/members.component';
 import { SmallGroupsComponent } from './small-groups/small-groups.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { MemberDialogComponent } from './members/member-dialog/member-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MembersComponent,
     SmallGroupsComponent,
-    DashboardComponent
+    DashboardComponent,
+    MemberDialogComponent
   ],
   imports: [
     BrowserModule,
