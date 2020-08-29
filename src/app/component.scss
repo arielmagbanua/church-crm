@@ -1,5 +1,80 @@
-@import "values";
+// structure padding and length values
+$content-max-with: 840px;
+$horizontal-padding: 40px;
+$vertical-padding: 20px;
+
+// small, medium, and large values for padding and margins
+$sm: 4px;
+$md: 8px;
+$lg: 16px;
 
 .container {
   padding: $vertical-padding $horizontal-padding $vertical-padding $horizontal-padding
+}
+
+@mixin margin($top: null, $right: null, $bottom: null, $left: null) {
+  margin: $top $right $bottom $left;
+}
+
+// small sized margins
+.m-sm {
+  @include margin($sm, $sm, $sm, $sm)
+}
+
+.mt-sm {
+  @include margin($sm, 0, 0, 0)
+}
+
+.mr-sm {
+  @include margin(0, $sm, 0, 0)
+}
+
+.mb-sm {
+  @include margin(0, 0, $sm, 0)
+}
+
+.ml-sm {
+  @include margin(0, 0, 0, $sm)
+}
+
+// medium sized margins
+.m-md {
+  @include margin($md, $md, $md, $md)
+}
+
+.mt-md {
+  @include margin($md, 0, 0, 0)
+}
+
+.mr-md {
+  @include margin(0, $md, 0, 0)
+}
+
+.mb-md {
+  @include margin(0, 0, $md, 0)
+}
+
+.ml-md {
+  @include margin(0, 0, 0, $md)
+}
+
+// large sized margins
+.m-lg {
+  @include margin($lg, $lg, $lg, $lg)
+}
+
+.mt-lg {
+  @include margin($lg, 0, 0, 0)
+}
+
+.mr-lg {
+  @include margin(0, $lg, 0, 0)
+}
+
+.mb-lg {
+  @include margin(0, 0, $lg, 0)
+}
+
+.ml-lg {
+  @include margin(0, 0, 0, $lg)
 }
