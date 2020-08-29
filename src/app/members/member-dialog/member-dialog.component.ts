@@ -21,6 +21,9 @@ export class MemberDialogComponent implements OnInit {
     private membersService: MembersService
   ) { }
 
+  /**
+   * Initialize component
+   */
   ngOnInit(): void {
     this.memberForm = new FormGroup({
       firstName: new FormControl(null, Validators.required),
@@ -46,6 +49,24 @@ export class MemberDialogComponent implements OnInit {
     }
   }
 
+  errors(formControlName: string, errorKey: string): boolean {
+    const errors = this.memberForm.get(formControlName).errors;
+
+    if (errors) {
+      return errors[errorKey];
+    }
+
+    return false;
+  }
+
+  invalid(formControlName: string): boolean {
+    return !this.memberForm.get(formControlName).valid &&
+      this.memberForm.get(formControlName).touched;
+  }
+
+  /**
+   * Submit the member form.
+   */
   async submitMember(): Promise<boolean> {
     // extract the date only
     this.member = {...this.memberForm.value};

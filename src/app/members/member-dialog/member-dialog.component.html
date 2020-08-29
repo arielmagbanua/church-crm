@@ -10,7 +10,11 @@
           type="text"
           placeholder="First Name"
         >
-        <mat-hint></mat-hint>
+        <mat-hint
+          *ngIf="errors('firstName', 'required') && invalid('firstName')"
+        >
+          This first name is required.
+        </mat-hint>
       </mat-form-field>
       <mat-form-field appearance="outline" class="col-lg-4 col-md-12 col-sm-12">
         <mat-label>Middle Name</mat-label>
@@ -30,7 +34,11 @@
           type="text"
           placeholder="Last Name"
         >
-        <mat-hint></mat-hint>
+        <mat-hint
+          *ngIf="errors('lastName', 'required') && invalid('lastName')"
+        >
+          This last name is required.
+        </mat-hint>
       </mat-form-field>
       <mat-form-field appearance="outline" class="col-lg-4 col-md-12 col-sm-12">
         <mat-label>Email</mat-label>
@@ -38,8 +46,13 @@
           formControlName="email"
           matInput
           type="email"
-          placeholder="Email">
-        <mat-hint></mat-hint>
+          placeholder="Email"
+        >
+        <mat-hint
+          *ngIf="invalid('email')"
+        >
+          {{ errors('email', 'required') ? 'The email is required.' : 'The email is invalid.' }}
+        </mat-hint>
       </mat-form-field>
       <mat-form-field appearance="outline" class="col-lg-4 col-md-12 col-sm-12">
         <mat-label>Mobile Number</mat-label>
@@ -105,7 +118,13 @@
     </div>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button mat-button cdkFocusInitial mat-dialog-close>Cancel</button>
+    <button
+      mat-button
+      cdkFocusInitial
+      mat-dialog-close
+    >
+      Cancel
+    </button>
     <button
       mat-button
       color="primary"
