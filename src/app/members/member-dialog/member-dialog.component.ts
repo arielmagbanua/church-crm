@@ -1,4 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Member } from '../../shared/member';
+import { MembersService } from '../members.service';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-member-dialog',
@@ -6,11 +10,57 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./member-dialog.component.scss']
 })
 export class MemberDialogComponent implements OnInit {
+  memberForm: FormGroup;
+  editMode = false;
+  member: Member;
   selectedStatus: string;
 
-  constructor() { }
+  constructor(
+    public dialogRef: MatDialogRef<MemberDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private membersService: MembersService
+  ) { }
 
   ngOnInit(): void {
+    this.memberForm = new FormGroup({
+      firstName: new FormControl(null, Validators.required),
+      middleName: new FormControl(null),
+      lastName: new FormControl(null, Validators.required),
+      email: new FormControl(null, [Validators.required, Validators.email]),
+      mobileNumber: new FormControl(null),
+      birthday: new FormControl(null, Validators.required),
+      address: new FormControl(null),
+      status: new FormControl(null, Validators.required),
+      smallGroup: new FormControl(null),
+      membershipDate: new FormControl(null)
+    });
+
+    this.memberForm.patchValue({
+      status: 'guest'
+    });
+
+    if (this.editMode) {
+      // grab the member to edit
+
+      // populate the form
+    }
   }
 
+  async submitMember(): Promise<boolean> {
+    // extract the date only
+    this.member = {...this.memberForm.value};
+    console.log(this.member);
+
+    if (!this.editMode) {
+      const docRef = await this.membersService.addMember(this.member);
+
+      if (docRef) {
+        // close the dialog
+        this.dialogRef.close(this.member);
+        return true;
+      }
+    }
+
+    return false;
+  }
 }
