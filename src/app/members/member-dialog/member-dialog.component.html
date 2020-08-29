@@ -13,7 +13,7 @@
         <mat-hint
           *ngIf="errors('firstName', 'required') && invalid('firstName')"
         >
-          This first name is required.
+          The first name is required.
         </mat-hint>
       </mat-form-field>
       <mat-form-field appearance="outline" class="col-lg-4 col-md-12 col-sm-12">
@@ -37,7 +37,7 @@
         <mat-hint
           *ngIf="errors('lastName', 'required') && invalid('lastName')"
         >
-          This last name is required.
+          The last name is required.
         </mat-hint>
       </mat-form-field>
       <mat-form-field appearance="outline" class="col-lg-4 col-md-12 col-sm-12">
@@ -65,14 +65,19 @@
         <mat-hint></mat-hint>
       </mat-form-field>
       <mat-form-field color="accent" appearance="fill" class="col-lg-4 col-md-12 col-sm-12">
-        <mat-label>Birthday</mat-label>
+        <mat-label>Birthdate</mat-label>
         <input
-          formControlName="birthday"
+          formControlName="birthdate"
           matInput
-          [matDatepicker]="birthdayPicker"
+          [matDatepicker]="birthdatePicker"
         >
-        <mat-datepicker-toggle matSuffix [for]="birthdayPicker"></mat-datepicker-toggle>
-        <mat-datepicker #birthdayPicker></mat-datepicker>
+        <mat-hint
+          *ngIf="errors('birthdate', 'required') && invalid('birthdate')"
+        >
+          The birth date is required.
+        </mat-hint>
+        <mat-datepicker-toggle matSuffix [for]="birthdatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #birthdatePicker></mat-datepicker>
       </mat-form-field>
       <mat-form-field appearance="fill" class="col-lg-12 col-md-12 col-sm-12">
         <mat-label>Address</mat-label>

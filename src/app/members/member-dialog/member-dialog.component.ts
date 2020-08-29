@@ -31,7 +31,7 @@ export class MemberDialogComponent implements OnInit {
       lastName: new FormControl(null, Validators.required),
       email: new FormControl(null, [Validators.required, Validators.email]),
       mobileNumber: new FormControl(null),
-      birthday: new FormControl(null, Validators.required),
+      birthdate: new FormControl(null, Validators.required),
       address: new FormControl(null),
       status: new FormControl(null, Validators.required),
       smallGroup: new FormControl(null),

@@ -4,7 +4,7 @@ export interface Member {
   lastName: string;
   email: string;
   mobileNumber: string;
-  birthDay: any | Date;
+  birthdate: any | Date;
   address: string;
   status: string;
   smallGroup: string;
