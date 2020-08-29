@@ -48,8 +48,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { MembersComponent } from './membership/members/members.component';
-import { SmallGroupsComponent } from './membership/small-groups/small-groups.component';
+import { MembersComponent } from './members/members.component';
+import { SmallGroupsComponent } from './small-groups/small-groups.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
