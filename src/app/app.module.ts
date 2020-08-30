@@ -63,7 +63,8 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
     MembersComponent,
     SmallGroupsComponent,
     DashboardComponent,
-    MemberDialogComponent
+    MemberDialogComponent,
+    MemberListComponent
   ],
   imports: [
     BrowserModule,
