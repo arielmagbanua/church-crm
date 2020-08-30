@@ -1,0 +1,55 @@
+@import "../../component";
+
+table {
+  width: 100%;
+}
+
+tr.detail-row {
+  height: 0;
+}
+
+tr.member-row:not(.expanded-row):hover {
+  background: whitesmoke;
+}
+
+tr.member-row:not(.expanded-row):active {
+  background: #efefef;
+}
+
+.member-row td {
+  border-bottom-width: 0;
+}
+
+td, th {
+  width: 20%;
+}
+
+.member-details {
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-content: space-around;
+}
+
+.member-full-details {
+  flex-grow: 8;
+}
+
+.member-full-field-details {
+  display: flex;
+  flex-direction: row;
+  align-content: space-around;
+  flex-wrap: wrap;
+
+  .full {
+    flex: 0 0 100%;
+  }
+
+  .item {
+    flex: 1;
+  }
+}
+
+.search-form {
+  width: 20%;
+}
