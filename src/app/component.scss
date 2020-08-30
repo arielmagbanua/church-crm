@@ -78,3 +78,11 @@ $lg: 16px;
 .ml-lg {
   @include margin(0, 0, 0, $lg)
 }
+
+span.label-title {
+  font-weight: bold;
+}
+
+span.label-md {
+  font-size: 1.2em;
+}
