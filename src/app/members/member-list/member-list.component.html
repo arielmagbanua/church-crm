@@ -1,1 +1,85 @@
-<p>member-list works!</p>
+<mat-form-field class="search-form">
+  <mat-label>Filter</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+</mat-form-field>
+<button
+  (click)="openAddMemberDialog()"
+  mat-icon-button
+  color="primary"
+  aria-label="Add a member"
+>
+  <mat-icon>person_add</mat-icon>
+</button>
+
+<div class="mat-elevation-z8">
+  <table
+    [dataSource]="dataSource"
+    mat-table
+    multiTemplateDataRows
+    matSort
+  >
+    <ng-container matColumnDef="{{ column }}" *ngFor="let column of columnsToDisplay">
+      <th *matHeaderCellDef mat-header-cell mat-sort-header>
+        <span class="label-title label-md">{{ columnsValueMap[column] }}</span>
+      </th>
+      <td mat-cell *matCellDef="let member"> {{ member[column] }} </td>
+    </ng-container>
+
+    <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let member" [attr.colspan]="columnsToDisplay.length">
+        <div
+          [@detailExpand]="member == expandedMember ? 'expanded' : 'collapsed'"
+          class="member-details"
+        >
+          <div class="profile-pic mt-md mb-md">
+            <img
+              src="https://www.pngitem.com/pimgs/m/30-307416_profile-icon-png-image-free-download-searchpng-employee.png"
+              alt="pic"
+              width="180"
+            >
+          </div>
+          <div class="member-full-details m-md ml-lg">
+            <h2>{{ member | extract: 'name' }}</h2>
+            <div class="member-full-field-details">
+              <div class="full mt-md mb-md">
+                <span class="label-title">Address:</span>
+                <span>{{ ' ' + member['address'] }}</span>
+              </div>
+              <div class="item mt-md mb-md">
+                <span class="label-title">Email:</span>
+                <span>{{ ' ' + member['email'] }}</span>
+              </div>
+              <div class="item mt-md mb-md">
+                <span class="label-title">Gender:</span>
+                <span>{{ ' ' + (member | extract: 'gender') }}</span>
+              </div>
+              <div class="item mt-md mb-md">
+                <span class="label-title">Birthdate:</span>
+                <span>{{ ' ' + member['birthdate'] }}</span>
+              </div>
+              <div class="item mt-md mb-md">
+                <span class="label-title">Small Group:</span>
+                <span>{{ ' ' + member['smallGroup'] }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let member; columns: columnsToDisplay;"
+        class="member-row"
+        [class.expanded-row]="expandedMember === member"
+        (click)="expandedMember = expandedMember === member ? null : member">
+    </tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
+
+    <!-- Row shown when there is no matching data. -->
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell" colspan="4">Could not find any member with: "{{ input.value }}"</td>
+    </tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>
