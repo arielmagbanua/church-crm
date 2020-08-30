@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { MemberListComponent } from './members/member-list/member-list.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSliderModule } from '@angular/material/slider';
@@ -56,6 +57,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { ExtractPipe } from './members/extract.pipe';
 
 @NgModule({
   declarations: [
@@ -64,7 +66,8 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
     SmallGroupsComponent,
     DashboardComponent,
     MemberDialogComponent,
-    MemberListComponent
+    MemberListComponent,
+    ExtractPipe
   ],
   imports: [
     BrowserModule,
