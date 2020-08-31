@@ -59,6 +59,7 @@ export class MemberDialogComponent implements OnInit, OnDestroy {
       firstName: new FormControl(null, Validators.required),
       middleName: new FormControl(null),
       lastName: new FormControl(null, Validators.required),
+      gender: new FormControl('M'),
       email: new FormControl(null, [Validators.required, Validators.email]),
       mobileNumber: new FormControl(null),
       birthdate: new FormControl(null, Validators.required),
