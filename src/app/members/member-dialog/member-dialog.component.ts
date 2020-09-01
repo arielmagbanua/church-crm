@@ -4,6 +4,7 @@ import { Member } from '../../shared/member';
 import { MembersService } from '../members.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { FileValidator } from 'ngx-material-file-input';
 
 @Component({
   selector: 'app-member-dialog',
@@ -37,6 +38,13 @@ export class MemberDialogComponent implements OnInit, OnDestroy {
    */
   private member: Member;
 
+  /**
+   * In this example, it's 3 MB (=3 * 2 ** 20).
+   *
+   * @private
+   */
+  private readonly maxSize = 3145728;
+
   constructor(
     public dialogRef: MatDialogRef<MemberDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -63,6 +71,7 @@ export class MemberDialogComponent implements OnInit, OnDestroy {
       email: new FormControl(null, [Validators.required, Validators.email]),
       mobileNumber: new FormControl(null),
       birthdate: new FormControl(null, Validators.required),
+      photo: new FormControl(null, FileValidator.maxContentSize(this.maxSize)),
       address: new FormControl(null),
       status: statusCtrl,
       smallGroup: smallGroupCtrl,
@@ -116,8 +125,12 @@ export class MemberDialogComponent implements OnInit, OnDestroy {
    */
   async submitMember(): Promise<boolean> {
     // extract the date only
-    this.member = {...this.memberForm.value};
-    console.log(this.member);
+    const filePhoto = this.memberForm.value.photo.files[0];
+    this.member = {...this.memberForm.value, photo: ''};
+
+    // upload a file first then grab the url.
+    const snapshot = await this.membersService.uploadPhoto(filePhoto);
+    this.member.photo = await snapshot.ref.getDownloadURL();
 
     if (!this.editMode) {
       const docRef = await this.membersService.addMember(this.member);
