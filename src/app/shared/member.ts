@@ -6,6 +6,7 @@ export interface Member {
   email: string;
   mobileNumber: string;
   birthdate: any | Date;
+  photo: string;
   address: string;
   status: string;
   smallGroup: string;
