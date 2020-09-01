@@ -3,7 +3,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { Member } from '../../shared/member';
+import { Member } from '../member';
 import { MemberDialogComponent } from '../member-dialog/member-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { NotifierService } from '../../shared/notifier.service';

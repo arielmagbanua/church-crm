@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Member } from '../shared/member';
+import { Member } from './member';
 
 @Pipe({
   name: 'extract'

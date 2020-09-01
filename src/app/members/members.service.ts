@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Member } from '../shared/member';
+import { Member } from './member';
 import {
   AngularFirestore,
   AngularFirestoreCollection,
