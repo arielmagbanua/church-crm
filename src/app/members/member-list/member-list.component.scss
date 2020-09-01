@@ -8,6 +8,10 @@ tr.detail-row {
   height: 0;
 }
 
+tr.member-row {
+  cursor: pointer;
+}
+
 tr.member-row:not(.expanded-row):hover {
   background: whitesmoke;
 }
@@ -33,21 +37,6 @@ td, th {
 
 .member-full-details {
   flex-grow: 8;
-}
-
-.member-full-field-details {
-  display: flex;
-  flex-direction: row;
-  align-content: space-around;
-  flex-wrap: wrap;
-
-  .full {
-    flex: 0 0 100%;
-  }
-
-  .item {
-    flex: 1;
-  }
 }
 
 .search-form {
