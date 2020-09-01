@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -64,7 +64,9 @@ export class MemberListComponent implements OnInit, OnDestroy {
   }
 
   openAddMemberDialog(): void {
-    const dialogRef = this.dialog.open(MemberDialogComponent);
+    const dialogRef = this.dialog.open(MemberDialogComponent, {
+      width: '65vw'
+    });
 
     dialogRef.afterClosed().subscribe((result: Member) => {
       console.log(`Dialog result: ${result}`);
