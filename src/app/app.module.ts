@@ -58,6 +58,8 @@ import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { ExtractPipe } from './members/extract.pipe';
+import { MaterialFileInputModule } from 'ngx-material-file-input';
+import { AngularFireStorageModule, BUCKET } from '@angular/fire/storage';
 
 @NgModule({
   declarations: [
@@ -119,9 +121,13 @@ import { ExtractPipe } from './members/extract.pipe';
     ScrollingModule,
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    AngularFireStorageModule,
+    MaterialFileInputModule
   ],
-  providers: [],
+  providers: [
+    { provide: BUCKET, useValue: 'gpdavao.appspot.com' }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
