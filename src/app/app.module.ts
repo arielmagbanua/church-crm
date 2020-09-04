@@ -10,8 +10,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { SmallGroupsComponent } from './small-groups/small-groups.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -20,9 +18,7 @@ import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    SmallGroupsComponent,
-    DashboardComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
