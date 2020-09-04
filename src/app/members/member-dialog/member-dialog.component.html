@@ -1,5 +1,5 @@
 <h2 mat-dialog-title>Add Member</h2>
-<form [formGroup]="memberForm" (ngSubmit)="submitMember()">
+<form [formGroup]="componentForm" (ngSubmit)="submit()">
   <mat-dialog-content class="mat-typography">
     <div class="row form-grid">
       <mat-form-field appearance="outline" class="col-lg-3 col-md-12 col-sm-12">
@@ -159,7 +159,7 @@
       mat-button
       color="primary"
       type="submit"
-      [disabled]="!memberForm.valid"
+      [disabled]="!componentForm.valid"
     >
       Save
     </button>

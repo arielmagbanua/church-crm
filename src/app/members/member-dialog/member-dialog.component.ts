@@ -5,17 +5,14 @@ import { MembersService } from '../members.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { FileValidator } from 'ngx-material-file-input';
+import { BaseReactiveFormComponent } from '../../base-reactive-form-component';
 
 @Component({
   selector: 'app-member-dialog',
   templateUrl: './member-dialog.component.html',
   styleUrls: ['./member-dialog.component.scss']
 })
-export class MemberDialogComponent implements OnInit, OnDestroy {
-  /**
-   * The form instance.
-   */
-  memberForm: FormGroup;
+export class MemberDialogComponent extends BaseReactiveFormComponent implements OnInit, OnDestroy {
 
   /**
    * Status change subscription
@@ -49,7 +46,9 @@ export class MemberDialogComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<MemberDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private membersService: MembersService
-  ) { }
+  ) {
+    super();
+  }
 
   /**
    * Initialize component
@@ -63,7 +62,7 @@ export class MemberDialogComponent implements OnInit, OnDestroy {
     smallGroupCtrl.disable();
     membershipDateCtrl.disable();
 
-    this.memberForm = new FormGroup({
+    this.componentForm = new FormGroup({
       firstName: new FormControl(null, Validators.required),
       middleName: new FormControl(null),
       lastName: new FormControl(null, Validators.required),
@@ -99,34 +98,10 @@ export class MemberDialogComponent implements OnInit, OnDestroy {
     }
   }
 
-  /**
-   * Grab the control error for the control
-   */
-  errors(formControlName: string, errorKey: string): boolean {
-    const errors = this.memberForm.get(formControlName).errors;
-
-    if (errors) {
-      return errors[errorKey];
-    }
-
-    return false;
-  }
-
-  /**
-   * Determines if the control is invalid
-   */
-  invalid(formControlName: string): boolean {
-    return !this.memberForm.get(formControlName).valid &&
-      this.memberForm.get(formControlName).touched;
-  }
-
-  /**
-   * Submit the member form.
-   */
-  async submitMember(): Promise<boolean> {
+  async submit(): Promise<boolean> {
     // extract the date only
-    const filePhoto = this.memberForm.value.photo.files[0];
-    this.member = {...this.memberForm.value, photo: ''};
+    const filePhoto = this.componentForm.value.photo.files[0];
+    this.member = {...this.componentForm.value, photo: ''};
 
     // upload a file first then grab the url.
     const snapshot = await this.membersService.uploadPhoto(filePhoto);
