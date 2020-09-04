@@ -1,8 +1,5 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-import { MembersComponent } from './members/members.component';
-import { SmallGroupsComponent } from './small-groups/small-groups.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
 const routes: Routes = [
   {
@@ -12,20 +9,25 @@ const routes: Routes = [
   },
   {
     path: 'dashboard',
-    component: DashboardComponent
+    loadChildren: () => import('./dashboard/dashboard.module')
+      .then((m) => m.DashboardModule)
   },
   {
     path: 'members',
-    component: MembersComponent
+    loadChildren: () => import('./members/members.module')
+      .then((m) => m.MembersModule)
   },
   {
     path: 'small-groups',
-    component: SmallGroupsComponent
+    loadChildren: () => import('./small-groups/small-groups.module')
+      .then((m) => m.SmallGroupsModule)
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {
+    preloadingStrategy: PreloadAllModules
+  })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
