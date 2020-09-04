@@ -46,9 +46,6 @@ const routes: Routes = [
     MaterialFileInputModule,
     MatNativeDateModule,
     RouterModule.forChild(routes)
-  ],
-  exports: [
-    RouterModule
-  ],
+  ]
 })
 export class MembersModule { }
