@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
-import { SmallGroupsComponent } from './small-groups/small-groups.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
@@ -20,7 +19,8 @@ const routes: Routes = [
   },
   {
     path: 'small-groups',
-    component: SmallGroupsComponent
+    loadChildren: () => import('./small-groups/small-groups.module')
+      .then((m) => m.SmallGroupsModule)
   }
 ];
 
