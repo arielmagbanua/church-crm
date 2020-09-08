@@ -111,8 +111,19 @@ export class MemberListComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Delete member
+   *
+   * @param id
+   */
+  deleteMember(id: string): void {
+    this.membersService.deleteMember(id).then(() => {
+      // show snackbar to signify success
+      this.notifierService.showSimpleSnackBar('Member was deleted successfully.');
+    });
+  }
+
   ngOnDestroy(): void {
     this.membersSubscription.unsubscribe();
   }
 }
-
