@@ -10,7 +10,7 @@ import { Member } from '../member';
 import { MemberDialogComponent } from '../member-dialog/member-dialog.component';
 import { NotifierService } from '../../shared/notifier.service';
 import { MembersService } from '../members.service';
-import { YesNoDialogComponent } from '../../shared/yes-no-dialog/yes-no-dialog.component';
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-member-list',
@@ -128,7 +128,7 @@ export class MemberListComponent implements OnInit, OnDestroy {
   }
 
   deleteConfirmDialog(id: string): Observable<any> {
-    const dialogRef = this.dialog.open(YesNoDialogComponent, {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
         title: 'Delete Member',
         message: 'Are you sure you want to delete this member?',
