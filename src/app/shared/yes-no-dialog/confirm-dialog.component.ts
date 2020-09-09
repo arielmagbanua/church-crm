@@ -11,10 +11,10 @@ export interface ConfirmData {
 
 @Component({
   selector: 'app-yes-no-dialog',
-  templateUrl: './yes-no-dialog.component.html',
-  styleUrls: ['./yes-no-dialog.component.scss']
+  templateUrl: './confirm-dialog.component.html',
+  styleUrls: ['./confirm-dialog.component.scss']
 })
-export class YesNoDialogComponent implements OnInit {
+export class ConfirmDialogComponent implements OnInit {
   /**
    * Dialog title
    */
@@ -36,7 +36,7 @@ export class YesNoDialogComponent implements OnInit {
   positiveText = 'To';
 
   constructor(
-    public dialogRef: MatDialogRef<YesNoDialogComponent>,
+    public dialogRef: MatDialogRef<ConfirmDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ConfirmData) {}
 
   ngOnInit(): void {
