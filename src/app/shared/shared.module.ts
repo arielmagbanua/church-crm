@@ -6,10 +6,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 
-import { YesNoDialogComponent } from './yes-no-dialog/yes-no-dialog.component';
+import { ConfirmDialogComponent } from './yes-no-dialog/confirm-dialog.component';
 
 @NgModule({
-  declarations: [YesNoDialogComponent],
+  declarations: [ConfirmDialogComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
