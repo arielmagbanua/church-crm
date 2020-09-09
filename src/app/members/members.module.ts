@@ -8,7 +8,6 @@ import { ExtractPipe } from './extract.pipe';
 import { RouterModule, Routes } from '@angular/router';
 import { CdkTableModule } from '@angular/cdk/table';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
@@ -35,7 +34,6 @@ const routes: Routes = [
   imports: [
     CdkTableModule,
     MatDatepickerModule,
-    MatDialogModule,
     MatPaginatorModule,
     SharedModule,
     MatSortModule,
