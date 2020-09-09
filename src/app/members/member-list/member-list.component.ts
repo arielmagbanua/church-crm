@@ -4,12 +4,13 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { Member } from '../member';
 import { MemberDialogComponent } from '../member-dialog/member-dialog.component';
 import { NotifierService } from '../../shared/notifier.service';
 import { MembersService } from '../members.service';
+import { YesNoDialogComponent } from '../../shared/yes-no-dialog/yes-no-dialog.component';
 
 @Component({
   selector: 'app-member-list',
@@ -52,6 +53,20 @@ export class MemberListComponent implements OnInit, OnDestroy {
    * @private
    */
   private membersSubscription: Subscription;
+
+  /**
+   * Add member subscription.
+   *
+   * @private
+   */
+  private addMemberDialogSubscription: Subscription;
+
+  /**
+   * Confirm delete member subscription
+   *
+   * @private
+   */
+  private confirmDeleteMemberDialogSubscription: Subscription;
 
   /**
    * Table paginator
@@ -101,7 +116,8 @@ export class MemberListComponent implements OnInit, OnDestroy {
       width: '65vw'
     });
 
-    dialogRef.afterClosed().subscribe((result: Member) => {
+    this.addMemberDialogSubscription =  dialogRef.afterClosed()
+      .subscribe((result: Member) => {
       console.log(`Dialog result: ${result}`);
 
       if (result) {
@@ -111,19 +127,41 @@ export class MemberListComponent implements OnInit, OnDestroy {
     });
   }
 
+  deleteConfirmDialog(id: string): Observable<any> {
+    const dialogRef = this.dialog.open(YesNoDialogComponent, {
+      data: {
+        title: 'Delete Member',
+        message: 'Are you sure you want to delete this member?',
+        positiveText: 'Yes',
+        negativeText: 'No',
+        result: id
+      }
+    });
+    return dialogRef.afterClosed();
+  }
+
   /**
    * Delete member
    *
    * @param id
    */
   deleteMember(id: string): void {
-    this.membersService.deleteMember(id).then(() => {
-      // show snackbar to signify success
-      this.notifierService.showSimpleSnackBar('Member was deleted successfully.');
+    // show dialog
+    this.confirmDeleteMemberDialogSubscription = this.deleteConfirmDialog(id)
+      .subscribe((memberId) => {
+      if (memberId) {
+        // delete id
+        this.membersService.deleteMember(id).then(() => {
+          // show snackbar to signify success
+          this.notifierService.showSimpleSnackBar('Member was deleted successfully.');
+        });
+      }
     });
   }
 
   ngOnDestroy(): void {
     this.membersSubscription.unsubscribe();
+    this.addMemberDialogSubscription.unsubscribe();
+    this.confirmDeleteMemberDialogSubscription.unsubscribe();
   }
 }
