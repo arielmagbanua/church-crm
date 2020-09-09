@@ -1,1 +1,8 @@
-<p>yes-no-dialog works!</p>
+<h2 mat-dialog-title>{{ title }}</h2>
+<mat-dialog-content class="mat-typography">
+  <p>{{ message }}</p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>{{ negativeText }}</button>
+  <button mat-button (click)="affirm()" cdkFocusInitial>{{ positiveText }}</button>
+</mat-dialog-actions>
