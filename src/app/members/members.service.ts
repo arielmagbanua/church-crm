@@ -20,7 +20,7 @@ export class MembersService {
     private fireStorage: AngularFireStorage
   ) {
     this.membersCollection = firestore.collection<Member>('members');
-    this.membersObservable = this.membersCollection.valueChanges();
+    this.membersObservable = this.membersCollection.valueChanges({ idField: 'id' });
   }
 
   get members(): Observable<Member[]> {
@@ -29,6 +29,10 @@ export class MembersService {
 
   addMember(member: Member): Promise<DocumentReference> {
     return this.membersCollection.add(member);
+  }
+
+  deleteMember(id: string): Promise<void> {
+    return this.membersCollection.doc<Member>(id).delete();
   }
 
   uploadPhoto(file: File): AngularFireUploadTask {

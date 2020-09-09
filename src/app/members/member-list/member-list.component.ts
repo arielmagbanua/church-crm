@@ -3,12 +3,14 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { MatDialog } from '@angular/material/dialog';
+import { Observable, Subscription } from 'rxjs';
+
 import { Member } from '../member';
 import { MemberDialogComponent } from '../member-dialog/member-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
 import { NotifierService } from '../../shared/notifier.service';
 import { MembersService } from '../members.service';
-import { Subscription } from 'rxjs';
+import { ConfirmDialogComponent } from '../../shared/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-member-list',
@@ -23,8 +25,19 @@ import { Subscription } from 'rxjs';
   ],
 })
 export class MemberListComponent implements OnInit, OnDestroy {
+  /**
+   * The data source of the members
+   */
   dataSource: MatTableDataSource<Member>;
+
+  /**
+   * Columns to display.
+   */
   columnsToDisplay = ['firstName', 'lastName', 'mobileNumber', 'status', 'membershipDate'];
+
+  /**
+   * Columns mapping
+   */
   columnsValueMap = {
     firstName: 'First Name',
     lastName: 'Last Name',
@@ -33,9 +46,36 @@ export class MemberListComponent implements OnInit, OnDestroy {
     membershipDate: 'Membership Date'
   };
   expandedMember: Member | null;
+
+  /**
+   * Members subscription.
+   *
+   * @private
+   */
   private membersSubscription: Subscription;
 
+  /**
+   * Add member subscription.
+   *
+   * @private
+   */
+  private addMemberDialogSubscription: Subscription;
+
+  /**
+   * Confirm delete member subscription
+   *
+   * @private
+   */
+  private confirmDeleteMemberDialogSubscription: Subscription;
+
+  /**
+   * Table paginator
+   */
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+
+  /**
+   * Table sorting
+   */
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(
@@ -54,6 +94,11 @@ export class MemberListComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Apply the filtering of members
+   *
+   * @param event
+   */
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -63,12 +108,16 @@ export class MemberListComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Open the add member dialog.
+   */
   openAddMemberDialog(): void {
     const dialogRef = this.dialog.open(MemberDialogComponent, {
       width: '65vw'
     });
 
-    dialogRef.afterClosed().subscribe((result: Member) => {
+    this.addMemberDialogSubscription =  dialogRef.afterClosed()
+      .subscribe((result: Member) => {
       console.log(`Dialog result: ${result}`);
 
       if (result) {
@@ -78,88 +127,41 @@ export class MemberListComponent implements OnInit, OnDestroy {
     });
   }
 
+  deleteConfirmDialog(id: string): Observable<any> {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        title: 'Delete Member',
+        message: 'Are you sure you want to delete this member?',
+        positiveText: 'Yes',
+        negativeText: 'No',
+        result: id
+      }
+    });
+    return dialogRef.afterClosed();
+  }
+
+  /**
+   * Delete member
+   *
+   * @param id
+   */
+  deleteMember(id: string): void {
+    // show dialog
+    this.confirmDeleteMemberDialogSubscription = this.deleteConfirmDialog(id)
+      .subscribe((memberId) => {
+      if (memberId) {
+        // delete id
+        this.membersService.deleteMember(id).then(() => {
+          // show snackbar to signify success
+          this.notifierService.showSimpleSnackBar('Member was deleted successfully.');
+        });
+      }
+    });
+  }
+
   ngOnDestroy(): void {
     this.membersSubscription.unsubscribe();
+    this.addMemberDialogSubscription.unsubscribe();
+    this.confirmDeleteMemberDialogSubscription.unsubscribe();
   }
 }
-
-// const DUMMY_MEMBERS: Member[] = [
-//   {
-//     firstName: 'John',
-//     middleName: 'Smith',
-//     lastName: 'Doe',
-//     gender: 'M',
-//     email: 'john@foo.com',
-//     mobileNumber: '11223344',
-//     birthdate: '4/23/1988',
-//     address: 'BARPA',
-//     status: 'guest',
-//     smallGroup: 'sg2',
-//     membershipDate: '4/23/2012',
-//   },
-//   {
-//     firstName: 'Jane',
-//     middleName: 'Smith',
-//     lastName: 'Doe',
-//     gender: 'F',
-//     email: 'jane@foo.com',
-//     mobileNumber: '11223344',
-//     birthdate: '4/23/1988',
-//     address: 'AGDAO',
-//     status: 'guest',
-//     smallGroup: 'sg3',
-//     membershipDate: '4/23/2013',
-//   },
-//   {
-//     firstName: 'Max',
-//     middleName: 'Dean',
-//     lastName: 'Joe',
-//     gender: 'M',
-//     email: 'max@foo.com',
-//     mobileNumber: '34234234',
-//     birthdate: '4/23/1988',
-//     address: 'JEROME',
-//     status: 'guest',
-//     smallGroup: 'sg1',
-//     membershipDate: '4/23/2015',
-//   },
-//   {
-//     firstName: 'Alice',
-//     middleName: 'In',
-//     lastName: 'Wonderland',
-//     gender: 'F',
-//     email: 'alice@wonderland.com',
-//     mobileNumber: '34234234',
-//     birthdate: '5/23/1988',
-//     address: 'JEROME',
-//     status: 'attendee',
-//     smallGroup: 'sg1',
-//     membershipDate: '4/23/2015',
-//   },
-//   {
-//     firstName: 'Jennifer',
-//     middleName: 'In',
-//     lastName: 'Wonderland',
-//     gender: 'F',
-//     email: 'alice@wonderland.com',
-//     mobileNumber: '34234234',
-//     birthdate: '5/29/1988',
-//     address: 'TORIL',
-//     status: 'attendee',
-//     smallGroup: 'sg1',
-//     membershipDate: '1/23/2015',
-//   },
-//   {
-//     firstName: 'Jake',
-//     middleName: 'In',
-//     lastName: 'Wonderland',
-//     gender: 'M',
-//     email: 'jake@wonderland.com',
-//     mobileNumber: '34234234',
-//     birthdate: '5/29/1988',
-//     address: 'TORIL',
-//     status: 'attendee',
-//     smallGroup: 'sg1',
-//     membershipDate: '1/23/2015',
-//   }
-// ];
