@@ -41,7 +41,7 @@ export class MembersService {
     return this.fireStorage.upload(filePath, file);
   }
 
-  updateMember(id: string, member: Member): void {
-
+  updateMember(id: string, member: Member): Promise<void> {
+    return this.membersCollection.doc<Member>(id).update(member);
   }
 }
