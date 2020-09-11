@@ -24,6 +24,7 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     MatSnackBarModule,
     MatIconModule,
     MatButtonModule,
+    MatDialogModule
   ]
 })
 export class SharedModule { }
