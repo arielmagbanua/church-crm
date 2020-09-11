@@ -45,9 +45,6 @@ export class MemberDialogComponent extends BaseReactiveFormComponent implements 
     super();
   }
 
-  /**
-   * Initialize component
-   */
   ngOnInit(): void {
     const smallGroupCtrl = new FormControl(this.data ? this.data.smallGroup : null);
     const statusCtrl = new FormControl(this.data ? this.data.status : 'guest', Validators.required);
