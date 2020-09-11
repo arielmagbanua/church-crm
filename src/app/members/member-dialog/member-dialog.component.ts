@@ -22,13 +22,6 @@ export class MemberDialogComponent extends BaseReactiveFormComponent implements 
   private statusSub: Subscription;
 
   /**
-   * Tells whether on edit mode or not.
-   *
-   * @private
-   */
-  private editMode = false;
-
-  /**
    * The member instance
    *
    * @private
@@ -44,7 +37,7 @@ export class MemberDialogComponent extends BaseReactiveFormComponent implements 
 
   constructor(
     public dialogRef: MatDialogRef<MemberDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: Member,
     private membersService: MembersService
   ) {
     super();
@@ -54,24 +47,24 @@ export class MemberDialogComponent extends BaseReactiveFormComponent implements 
    * Initialize component
    */
   ngOnInit(): void {
-    const smallGroupCtrl = new FormControl(null);
-    const statusCtrl = new FormControl('guest', Validators.required);
-    const membershipDateCtrl = new FormControl(null, Validators.required);
+    const smallGroupCtrl = new FormControl(this.data ? this.data.smallGroup : null);
+    const statusCtrl = new FormControl(this.data ? this.data.status : 'guest', Validators.required);
+    const membershipDateCtrl = new FormControl(this.data ? this.data.membershipDate : null, Validators.required);
 
     // disable or enable controls
     smallGroupCtrl.disable();
     membershipDateCtrl.disable();
 
     this.componentForm = new FormGroup({
-      firstName: new FormControl(null, Validators.required),
-      middleName: new FormControl(null),
-      lastName: new FormControl(null, Validators.required),
-      gender: new FormControl('M'),
-      email: new FormControl(null, [Validators.required, Validators.email]),
-      mobileNumber: new FormControl(null),
-      birthdate: new FormControl(null, Validators.required),
+      firstName: new FormControl(this.data ? this.data.firstName : null, Validators.required),
+      middleName: new FormControl(this.data ? this.data.middleName : null),
+      lastName: new FormControl(this.data ? this.data.lastName : null, Validators.required),
+      gender: new FormControl(this.data ? this.data.gender : 'M'),
+      email: new FormControl(this.data ? this.data.email : null, [Validators.required, Validators.email]),
+      mobileNumber: new FormControl(this.data ? this.data.mobileNumber : null),
+      birthdate: new FormControl(this.data ? this.data.birthdate.toDate() : null, Validators.required),
       photo: new FormControl(null, FileValidator.maxContentSize(this.maxSize)),
-      address: new FormControl(null),
+      address: new FormControl(this.data ? this.data.address : null),
       status: statusCtrl,
       smallGroup: smallGroupCtrl,
       membershipDate: membershipDateCtrl
@@ -90,24 +83,22 @@ export class MemberDialogComponent extends BaseReactiveFormComponent implements 
         smallGroupCtrl.enable();
       }
     });
-
-    if (this.editMode) {
-      // grab the member to edit
-
-      // populate the form
-    }
   }
 
+  /**
+   * Submit form
+   */
   async submit(): Promise<boolean> {
-    // extract the date only
-    const filePhoto = this.componentForm.value.photo.files[0];
-    this.member = {...this.componentForm.value, photo: ''};
+    if (!this.data) {
+      // extract the date only
+      const filePhoto = this.componentForm.value.photo.files[0];
+      this.member = {...this.componentForm.value, photo: ''};
 
-    // upload a file first then grab the url.
-    const snapshot = await this.membersService.uploadPhoto(filePhoto);
-    this.member.photo = await snapshot.ref.getDownloadURL();
+      // upload a file first then grab the url.
+      const snapshot = await this.membersService.uploadPhoto(filePhoto);
+      this.member.photo = await snapshot.ref.getDownloadURL();
 
-    if (!this.editMode) {
+      // add the new member
       const docRef = await this.membersService.addMember(this.member);
 
       if (docRef) {
@@ -115,6 +106,14 @@ export class MemberDialogComponent extends BaseReactiveFormComponent implements 
         this.dialogRef.close(this.member);
         return true;
       }
+    } else {
+      // TODO: Remove the old photo
+      this.member = {...this.componentForm.value};
+
+      // update the new member
+      await this.membersService.updateMember(this.data.id, this.member);
+      this.dialogRef.close(this.member);
+      return true;
     }
 
     return false;
