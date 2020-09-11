@@ -1,10 +1,12 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Member } from '../member';
-import { MembersService } from '../members.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+
 import { FileValidator } from 'ngx-material-file-input';
+
+import { Member } from '../member';
+import { MembersService } from '../members.service';
 import { BaseReactiveFormComponent } from '../../base-reactive-form-component';
 
 @Component({
