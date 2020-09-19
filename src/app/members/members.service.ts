@@ -31,8 +31,15 @@ export class MembersService {
     return this.membersCollection.add(member);
   }
 
-  deleteMember(id: string): Promise<void> {
-    return this.membersCollection.doc<Member>(id).delete();
+  async deleteMember(id: string): Promise<void> {
+    const memberDoc = this.membersCollection.doc<Member>(id);
+    const documentSnapshot = await memberDoc.ref.get();
+    const memberData = documentSnapshot.data() as Member;
+
+    // remove the photo
+    await this.deletePhotoByUrl(memberData.photo);
+
+    return memberDoc.delete();
   }
 
   uploadPhoto(file: File): AngularFireUploadTask {
