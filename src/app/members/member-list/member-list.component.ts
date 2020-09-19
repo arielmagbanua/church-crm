@@ -59,7 +59,7 @@ export class MemberListComponent implements OnInit, OnDestroy {
    *
    * @private
    */
-  private addMemberDialogSubscription: Subscription;
+  private memberDialogSubscription: Subscription;
 
   /**
    * Confirm delete member subscription
@@ -116,7 +116,7 @@ export class MemberListComponent implements OnInit, OnDestroy {
       width: '65vw'
     });
 
-    this.addMemberDialogSubscription =  dialogRef.afterClosed()
+    this.memberDialogSubscription = dialogRef.afterClosed()
       .subscribe((result: Member) => {
       console.log(`Dialog result: ${result}`);
 
@@ -127,6 +127,31 @@ export class MemberListComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * Open edit member dialog
+   *
+   * @param member
+   */
+  openEditMemberDialog(member: Member): void {
+    const dialogRef = this.dialog.open(MemberDialogComponent, {
+      width: '65vw',
+      data: member
+    });
+
+    this.memberDialogSubscription = dialogRef.afterClosed()
+      .subscribe((result: Member) => {
+        if (result) {
+          // show snackbar to signify success
+          this.notifierService.showSimpleSnackBar('Member was updated successfully.');
+        }
+      });
+  }
+
+  /**
+   * Show confirm delete dialog
+   *
+   * @param id
+   */
   deleteConfirmDialog(id: string): Observable<any> {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
@@ -161,7 +186,7 @@ export class MemberListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.membersSubscription.unsubscribe();
-    this.addMemberDialogSubscription.unsubscribe();
+    this.memberDialogSubscription.unsubscribe();
     this.confirmDeleteMemberDialogSubscription.unsubscribe();
   }
 }

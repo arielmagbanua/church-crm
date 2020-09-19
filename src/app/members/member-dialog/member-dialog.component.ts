@@ -1,10 +1,12 @@
 import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Member } from '../member';
-import { MembersService } from '../members.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+
 import { FileValidator } from 'ngx-material-file-input';
+
+import { Member } from '../member';
+import { MembersService } from '../members.service';
 import { BaseReactiveFormComponent } from '../../base-reactive-form-component';
 
 @Component({
@@ -22,13 +24,6 @@ export class MemberDialogComponent extends BaseReactiveFormComponent implements 
   private statusSub: Subscription;
 
   /**
-   * Tells whether on edit mode or not.
-   *
-   * @private
-   */
-  private editMode = false;
-
-  /**
    * The member instance
    *
    * @private
@@ -44,34 +39,31 @@ export class MemberDialogComponent extends BaseReactiveFormComponent implements 
 
   constructor(
     public dialogRef: MatDialogRef<MemberDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: Member,
     private membersService: MembersService
   ) {
     super();
   }
 
-  /**
-   * Initialize component
-   */
   ngOnInit(): void {
-    const smallGroupCtrl = new FormControl(null);
-    const statusCtrl = new FormControl('guest', Validators.required);
-    const membershipDateCtrl = new FormControl(null, Validators.required);
+    const smallGroupCtrl = new FormControl(this.data ? this.data.smallGroup : null);
+    const statusCtrl = new FormControl(this.data ? this.data.status : 'guest', Validators.required);
+    const membershipDateCtrl = new FormControl(this.data ? this.data.membershipDate : null, Validators.required);
 
     // disable or enable controls
     smallGroupCtrl.disable();
     membershipDateCtrl.disable();
 
     this.componentForm = new FormGroup({
-      firstName: new FormControl(null, Validators.required),
-      middleName: new FormControl(null),
-      lastName: new FormControl(null, Validators.required),
-      gender: new FormControl('M'),
-      email: new FormControl(null, [Validators.required, Validators.email]),
-      mobileNumber: new FormControl(null),
-      birthdate: new FormControl(null, Validators.required),
+      firstName: new FormControl(this.data ? this.data.firstName : null, Validators.required),
+      middleName: new FormControl(this.data ? this.data.middleName : null),
+      lastName: new FormControl(this.data ? this.data.lastName : null, Validators.required),
+      gender: new FormControl(this.data ? this.data.gender : 'M'),
+      email: new FormControl(this.data ? this.data.email : null, [Validators.required, Validators.email]),
+      mobileNumber: new FormControl(this.data ? this.data.mobileNumber : null),
+      birthdate: new FormControl(this.data ? this.data.birthdate.toDate() : null, Validators.required),
       photo: new FormControl(null, FileValidator.maxContentSize(this.maxSize)),
-      address: new FormControl(null),
+      address: new FormControl(this.data ? this.data.address : null),
       status: statusCtrl,
       smallGroup: smallGroupCtrl,
       membershipDate: membershipDateCtrl
@@ -90,24 +82,23 @@ export class MemberDialogComponent extends BaseReactiveFormComponent implements 
         smallGroupCtrl.enable();
       }
     });
-
-    if (this.editMode) {
-      // grab the member to edit
-
-      // populate the form
-    }
   }
 
+  /**
+   * Submit form
+   */
   async submit(): Promise<boolean> {
-    // extract the date only
-    const filePhoto = this.componentForm.value.photo.files[0];
-    this.member = {...this.componentForm.value, photo: ''};
+    const photoFormValue = this.componentForm.value.photo;
+    const filePhoto = photoFormValue ? photoFormValue.files[0] : null;
 
-    // upload a file first then grab the url.
-    const snapshot = await this.membersService.uploadPhoto(filePhoto);
-    this.member.photo = await snapshot.ref.getDownloadURL();
+    if (!this.data) {
+      this.member = {...this.componentForm.value, photo: ''};
 
-    if (!this.editMode) {
+      // upload a file first then grab the url.
+      const snapshot = await this.membersService.uploadPhoto(filePhoto);
+      this.member.photo = await snapshot.ref.getDownloadURL();
+
+      // add the new member
       const docRef = await this.membersService.addMember(this.member);
 
       if (docRef) {
@@ -115,6 +106,22 @@ export class MemberDialogComponent extends BaseReactiveFormComponent implements 
         this.dialogRef.close(this.member);
         return true;
       }
+    } else {
+      this.member = {...this.componentForm.value, photo: this.data.photo};
+
+      if (filePhoto) {
+        // upload a file first then grab the url.
+        const snapshot = await this.membersService.uploadPhoto(filePhoto);
+        // New photo was picked therefore replace the old one.
+        this.member.photo = await snapshot.ref.getDownloadURL();
+        // Delete the old photo from the storage
+        await this.membersService.deletePhotoByUrl(this.data.photo);
+      }
+
+      // update the new member
+      await this.membersService.updateMember(this.data.id, this.member);
+      this.dialogRef.close(this.member);
+      return true;
     }
 
     return false;
