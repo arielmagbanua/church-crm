@@ -185,8 +185,16 @@ export class MemberListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.membersSubscription.unsubscribe();
-    this.memberDialogSubscription.unsubscribe();
-    this.confirmDeleteMemberDialogSubscription.unsubscribe();
+    if (this.membersSubscription) {
+      this.membersSubscription.unsubscribe();
+    }
+
+    if (this.memberDialogSubscription) {
+      this.memberDialogSubscription.unsubscribe();
+    }
+
+    if (this.confirmDeleteMemberDialogSubscription) {
+      this.confirmDeleteMemberDialogSubscription.unsubscribe();
+    }
   }
 }
