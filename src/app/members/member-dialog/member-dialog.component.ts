@@ -88,9 +88,10 @@ export class MemberDialogComponent extends BaseReactiveFormComponent implements 
    * Submit form
    */
   async submit(): Promise<boolean> {
+    const photoFormValue = this.componentForm.value.photo;
+    const filePhoto = photoFormValue ? photoFormValue.files[0] : null;
+
     if (!this.data) {
-      // extract the date only
-      const filePhoto = this.componentForm.value.photo.files[0];
       this.member = {...this.componentForm.value, photo: ''};
 
       // upload a file first then grab the url.
@@ -106,8 +107,16 @@ export class MemberDialogComponent extends BaseReactiveFormComponent implements 
         return true;
       }
     } else {
-      // TODO: Remove the old photo
-      this.member = {...this.componentForm.value};
+      this.member = {...this.componentForm.value, photo: this.data.photo};
+
+      if (filePhoto) {
+        // upload a file first then grab the url.
+        const snapshot = await this.membersService.uploadPhoto(filePhoto);
+        // New photo was picked therefore replace the old one.
+        this.member.photo = await snapshot.ref.getDownloadURL();
+        // Delete the old photo from the storage
+        await this.membersService.deletePhotoByUrl(this.data.photo);
+      }
 
       // update the new member
       await this.membersService.updateMember(this.data.id, this.member);

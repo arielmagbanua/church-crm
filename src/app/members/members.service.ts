@@ -36,9 +36,13 @@ export class MembersService {
   }
 
   uploadPhoto(file: File): AngularFireUploadTask {
-    const filePath = new Date().valueOf() + '-' + file.name;
-    const fileRef = this.fireStorage.ref(filePath);
+    const filePath = 'members/' + new Date().valueOf() + '-' + file.name;
+    // const fileRef = this.fireStorage.ref(filePath);
     return this.fireStorage.upload(filePath, file);
+  }
+
+  deletePhotoByUrl(fileUrl: string): Promise<any> {
+    return this.fireStorage.storage.refFromURL(fileUrl).delete();
   }
 
   updateMember(id: string, member: Member): Promise<void> {
