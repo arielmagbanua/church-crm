@@ -5,8 +5,6 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -38,8 +36,6 @@ const routes: Routes = [
     SharedModule,
     MatSortModule,
     MatTableModule,
-    MatFormFieldModule,
-    MatInputModule,
     MatSelectModule,
     MaterialFileInputModule,
     MatNativeDateModule,
