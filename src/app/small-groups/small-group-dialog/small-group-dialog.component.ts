@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+
+import { SmallGroup } from '../small-group';
 
 @Component({
   selector: 'app-small-group-dialog',
@@ -7,9 +10,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SmallGroupDialogComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    public dialogRef: MatDialogRef<SmallGroupDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: SmallGroup
+  ) { }
 
   ngOnInit(): void {
   }
-
 }
