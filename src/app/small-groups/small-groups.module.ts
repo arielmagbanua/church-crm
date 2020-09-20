@@ -4,6 +4,7 @@ import { SharedModule } from '../shared/shared.module';
 
 import { SmallGroupsComponent } from './small-groups.component';
 import { SmallGroupListComponent } from './small-group-list/small-group-list.component';
+import { SmallGroupDialogComponent } from './small-group-dialog/small-group-dialog.component';
 
 const routes: Routes = [
   {
@@ -15,7 +16,8 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     SmallGroupsComponent,
-    SmallGroupListComponent
+    SmallGroupListComponent,
+    SmallGroupDialogComponent
   ],
   imports: [
     SharedModule,
