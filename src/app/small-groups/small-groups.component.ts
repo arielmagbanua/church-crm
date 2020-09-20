@@ -11,5 +11,4 @@ export class SmallGroupsComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }
