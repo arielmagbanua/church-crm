@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { SmallGroupsComponent } from './small-groups.component';
 import { SharedModule } from '../shared/shared.module';
+
+import { SmallGroupsComponent } from './small-groups.component';
+import { SmallGroupListComponent } from './small-group-list/small-group-list.component';
 
 const routes: Routes = [
   {
@@ -12,7 +14,8 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    SmallGroupsComponent
+    SmallGroupsComponent,
+    SmallGroupListComponent
   ],
   imports: [
     SharedModule,
